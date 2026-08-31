@@ -13,16 +13,19 @@
       return null;
     }
   }
+  async function loadJpeg(src) {
+    return (await load(src)) || (await load("img-b64/" + src.replace(/^img\//, "") + ".b64"));
+  }
   document.querySelectorAll("img").forEach(function (img) {
     var src = img.getAttribute("src") || "";
     if (src.indexOf("img/") !== 0) return;
-    load(src).then(function (data) {
+    loadJpeg(src).then(function (data) {
       if (data) img.src = data;
     });
   });
   var hero = document.querySelector(".hero-photo");
   if (hero) {
-    load("img/clearspace-aerial.jpg").then(function (data) {
+    loadJpeg("img/clearspace-aerial.jpg").then(function (data) {
       if (data) hero.style.backgroundImage = 'url("' + data + '")';
     });
   }
